@@ -18,7 +18,7 @@ import { toast } from "sonner"
 interface AddDiagnosisProps{
     patientId: string
     doctorId: string
-    appointmentId: string
+    appointmentId: number
     medicalId: string
 }
 
@@ -48,7 +48,7 @@ export const AddDiagnosis = ({
         try {
             setLoading(true)
 
-            const res = await addDiagnosis(data, appointmentId)
+            const res = await addDiagnosis(data, appointmentId.toString())
 
             if (res.success) {
                 toast.success(res.message)

@@ -131,12 +131,12 @@ const DoctorsProfile = async (props: { params: Promise<{ id: string }> }) => {
                             Doctor Appointments
                         </Link>
 
-                        <Link
+                        {/* <Link
                             href="#"
                             className='p-3 rounded-md bg-yellow-50 hover:underline'
                         >
                             Apply for leave
-                        </Link>
+                        </Link> */}
                     </div>
                 </div>
 

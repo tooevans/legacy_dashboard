@@ -43,7 +43,7 @@ export default async function Home() {
                         ) : (
                             <>
                                 <Link href="/sign-up">
-                                    <Button className="med:text-base font-light">
+                                    <Button variant="outline" className="md:text-base outline hover text-blue-500">
                                         New Patient
                                     </Button>
                                 </Link>
@@ -53,6 +53,8 @@ export default async function Home() {
                                         Login to account
                                     </Button>
                                 </Link>
+
+                                
                             </>
                         )}
                     </div>

@@ -13,7 +13,7 @@ export const PatientFormSchema = z.object({
         .max(30, "Last name cannot be more than 20 charcters"),
     date_of_birth: z.coerce.date(),
     gender: z.enum(["MALE", "FEMALE"], {message: "Gender is required"}),
-    email: z.string().email("Invalid email address"),
+    email: z.email("Invalid email address"),
     phone: z.string().min(7, "Phone number must be at least 7 digits"),
     address: z
         .string()
@@ -65,7 +65,7 @@ export const DoctorSchema = z.object({
         .min(2, "Name must be at least 3 characters")
         .max(50, "Maximum is 50 characters"),
     phone: z.string().min(7, "Enter phone number").max(15, "Enter phone number"),
-    email: z.string().email("Invalid email address"),
+    email: z.email("Invalid email address"),
     address: z
         .string()
         .min(5, "Must be at least 5 characters")
@@ -140,21 +140,30 @@ export const ReviewSchema = z.object({
 export const VitalSignsSchema = z.object({
     patient_id: z.string(),
     medical_id: z.string(),
-    systolic: z.number({
+
+    systolic: z.coerce.number({
         message: "Enter recorded pressure",
     }),
-    diastolic: z.number({
+    diastolic: z.coerce.number({
         message: "Enter recorded pressure",
     }),
-    pulse: z.string({ message: "Enter recorded pulse rate"}),
+    pulse: z.coerce.number({ message: "Enter recorded pulse rate"}),
     body_temperature: z.coerce.number({
         message: "Enter recorded temperature",
     }),
-    sugars: z.string(),
-    respiratory_rate: z.number().optional(),
-    oxygen_saturation: z.number().optional(),
-    weight: z.number({ message: "Enter Weight (kg)"}),
-    height: z.number({ message: "Enter height (cm)"}),
+
+    sugars: z.coerce.number(),
+
+    respiratory_rate: z.preprocess(
+        (val) => val === "" ? undefined : Number(val),
+        z.number().optional()
+    ),
+    oxygen_saturation: z.preprocess(
+        (val) => val === "" ? undefined : Number(val),
+        z.number().optional()
+    ),
+    weight: z.coerce.number({ message: "Enter Weight (kg)"}),
+    height: z.coerce.number({ message: "Enter height (cm)"}),
 })
 
 export const DiagnosisSchema = z.object({

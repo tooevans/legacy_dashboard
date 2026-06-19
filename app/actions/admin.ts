@@ -27,21 +27,23 @@ export async function createNewDoctor(data: any) {
 
         const user = await client.users.createUser({
             emailAddress: [validatedValues.email],
-            // phoneNumber: [validatedValues.phone],
+            phoneNumber: [validatedValues.phone],
             password: validatedValues.password,
             firstName: validatedValues.name.split(" ")[0],
             lastName: validatedValues.name.split(" ")[1],
             publicMetadata: { role: "doctor" },
         })
 
-        delete validatedValues["password"]
+        // delete validatedValues["password"]
+        const { password, ...doctorData } = validatedValues;
 
         const doctor = await db.doctor.create({
             data: {
-                ...validatedValues,
+                ...doctorData,
                 id: user.id,
             },
         })
+
 
         await Promise.all(
             workingDayData?.map((i) => 
@@ -57,6 +59,8 @@ export async function createNewDoctor(data: any) {
             error: false,
         }
     } catch (error) {
+        console.error("createNewDoctor error: ", error)
+
         return { error: true, success: false, message: "Something went wrong" }
     }
 }

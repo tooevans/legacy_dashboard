@@ -119,7 +119,7 @@ export const BookAppointment = ({data, doctors} : {data: Patient; doctors: Docto
                                     placeholder='Select appointment type'
                                 />
 
-                                <FieldGroup>
+                                
                                     <Controller
                                         name="doctor_id"
                                         control={form.control}
@@ -131,11 +131,11 @@ export const BookAppointment = ({data, doctors} : {data: Patient; doctors: Docto
                                                     defaultValue={field.value}
                                                     disabled={isSubmitting}
                                                 >
-                                                    <Control>
+                                                    
                                                         <SelectTrigger>
                                                             <SelectValue placeholder="Select a doctor" />
                                                         </SelectTrigger>
-                                                    </Control>
+                                                    
                                                     <SelectContent className=''>
                                                         {physicians?.map((i, id) => (
                                                             <SelectItem key={id} value={i.id} className='p-2'>
@@ -198,7 +198,7 @@ export const BookAppointment = ({data, doctors} : {data: Patient; doctors: Docto
                                     >
                                         Submit
                                     </Button>
-                                </FieldGroup>
+                                
                             </form>
                         </Field>
                     </div>

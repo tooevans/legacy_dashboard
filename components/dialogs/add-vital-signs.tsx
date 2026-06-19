@@ -48,8 +48,10 @@ export const AddVitalSigns = ({patientId,doctorId,appointmentId,medicalId} : Add
     const handleSubmit = async (data: VitalSignsFormData) => {
         try {
             setIsLoading(true)
-            
+            console.log("RAW DATA1: ", data)
             const res = await addVitalSigns(data, appointmentId, doctorId)
+
+            console.log("RAW DATA: ", data)
 
             if (res.success) {
                 router.refresh()

@@ -11,10 +11,10 @@ export const StatSummary = ({ data, total } : { data: any; total: number }) => {
         { name: "Total", count: total || 102, fill: "white" },
         {
             name: "Appointments",
-            count: data?.PENDING + data?.SCHEDULED || 80,
+            count: data?.PENDING + data?.SCHEDULED || 0,
             fill: "teal",
         },
-        { name: "Consultation", count: data?.COMPLETED || 20, fill: "#000000" },
+        { name: "Consultation", count: data?.COMPLETED || 0, fill: "#000000" },
     ];
 
     const appointment = dataInfo[1].count;

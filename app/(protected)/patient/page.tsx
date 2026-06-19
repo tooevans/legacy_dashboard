@@ -88,18 +88,19 @@ const PatientDashboard = async() => {
             </div>
           </div>
 
-          <div className='w-full flex flex-wrap gap-5'>
+          {/* <div className='w-full flex flex-wrap gap-5'>
             {
               cardData?.map((i, id) => (
                 <StatCard key={id} {...i} link="#"/>
               )
             )}
-          </div>
+          </div> */}
+          
         </div>
 
-        <div className='w-125'>
+        {/* <div className='w-125'>
           <AppointmentChart data={monthlyData} />
-        </div>
+        </div> */}
 
         <div className='bg-white rounded-xl p-4 mt-8'>
           <RecentAppointments data={last5Records} /> 
@@ -108,13 +109,13 @@ const PatientDashboard = async() => {
 
       {/* RIGHT */}
       <div className='w-full xl:w-[30%]'>
-        <div className='w-full h-112.5 mb-8'>
+        {/* {<div className='w-full h-112.5 mb-8'>
           <StatSummary data={appointmentCounts} total={totalAppointments} /> 
-        </div>
+        </div>} 
 
         <AvailableDoctors data={availableDoctor as AvailableDoctorProps} />
 
-        <PatientRatingContainer />
+        <PatientRatingContainer /> */}
       </div>
     </div>
   )

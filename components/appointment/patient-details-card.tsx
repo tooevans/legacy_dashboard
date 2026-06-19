@@ -14,7 +14,7 @@ export const PatientDetailsCard = ({data}: {data: Patient}) => {
                 <div className='relative size-20 xl:size-24 rounded-full overflow-hidden'>
                     <Image
                         src={data?.img || "/men.png"}
-                        alt={data?.first_name}
+                        alt={data ? `Profile photo of ${data.first_name} ${data.last_name}` : "Profile image"}
                         width={100}
                         height={100}
                         className='rounded-full'
@@ -40,7 +40,11 @@ export const PatientDetailsCard = ({data}: {data: Patient}) => {
                     <div>
                         <p className='text-sm text-gray-900'>Date of Birth</p>
                         <p className='text-base font-medium text-gray-700'>
-                            {format(new Date(data?.date_of_birth), "dd MM, yyyy")} 
+                            {/* {format(new Date(data?.date_of_birth), "dd MM, yyyy")} */}
+
+                            {data?.date_of_birth
+                                ? format(new Date(data.date_of_birth), "dd MM, yyyy")
+                                : "Not provided"}
                         </p>
                     </div>
                 </div>
@@ -75,15 +79,15 @@ export const PatientDetailsCard = ({data}: {data: Patient}) => {
                     </div>
                 </div>
 
-                <div className='flex items-start gap-3'>
+                {/* <div className='flex items-start gap-3'>
                     <Info size={22} className='text-gray-900' />
                     <div>
                         <p className='text-sm text-gray-900'>Doctor</p>
                         <p className='text-base font-medium text-gray-700'>
-                            Dr. derma
+                            
                         </p>
                     </div>
-                </div>
+                </div> */}
 
                 <div className='flex items-start gap-3'>
                     

@@ -20,10 +20,10 @@ import { BriefcaseBusinessIcon, UserPenIcon, Users } from 'lucide-react'
 import React from 'react'
 
 const colums = [
-    {
+    /*{
         header: "No",
         key: "no",
-    },
+    },*/
     {
         header: "Info",
         key: "name",
@@ -43,7 +43,7 @@ const colums = [
         key: "diagnosis",
         className: "hidden lg:table-cell",
     },
-    {
+    /*{
         header: "Lab Test",
         key: "lab_test",
         className: "hidden 2xl:table-cell",
@@ -52,7 +52,7 @@ const colums = [
         header: "Prescription",
         key: "prescription",
         className: "hidden 2xl:table-cell",
-    },
+    },*/
     {
         header: "Action",
         key: "action",
@@ -115,16 +115,16 @@ const MedicalRecordsPage =  async (props: SearchParamsProps) => {
                         : <span>{item?.diagnosis.length}</span>
                     }
                 </td>
-                <td className='hidden xl:table-cell'>
+                {/*<td className='hidden xl:table-cell'>
                     {item?.lab_test.length === 0
                         ? <span className='text-gray-600 italic'>No labs found</span>
                         : <span>{item?.lab_test.length}</span>
                     }
-                </td>
+                </td>*/}
                 
                 <td>
                     
-                    <ViewAction href={`/appointments/${item?.appointment_id}`} />
+                    <ViewAction href={`record/appointments/${item?.appointment_id}`} />
                       
                 </td>
             </tr>

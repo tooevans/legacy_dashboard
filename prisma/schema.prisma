@@ -247,12 +247,12 @@ model VitalSigns {
   body_temperature  Float
   systolic          Int?
   diastolic         Int?
-  pulse             String
+  pulse             Int?
   respiratory_rate  Int?
   oxygen_saturation   Int?
   weight              Float
   height              Float
-  sugars              String
+  sugars              Float
 
   created_at           DateTime @default(now())
   updated_at           DateTime @updatedAt

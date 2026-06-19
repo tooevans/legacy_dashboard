@@ -30,7 +30,12 @@ export function formatDateTime(isoDate: string) : string {
     return date.toLocaleString("en-US", options);
 }
 
-export function calculateAge(dob: Date) : string {
+export function calculateAge(dob?: Date | null) : string {
+
+    if (!dob) {
+        return "Age not available"
+    }
+    
     const today = new Date()
     let years = today.getFullYear() - dob.getFullYear()
     let months = today.getMonth() - dob.getMonth()

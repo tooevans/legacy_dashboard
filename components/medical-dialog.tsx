@@ -1,17 +1,18 @@
 import React from 'react'
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog'
 import { Button } from './ui/button'
+import { DiagnosisContainer } from './appointment/diagnosis-container'
 
 interface DataProps {
-    id: string | number
+    id: number
     patientId: string
-    medicalId?: string
-    doctor_id: string | number
+    medicalId?: number
+    doctorId: string
     label: React.ReactNode
 }
 
 export const MedicalHistoryDialog = async ({
-    id, patientId, doctor_id, label,
+    id, patientId, doctorId, label,
 } : DataProps) => {
     return (
         <Dialog>
@@ -25,11 +26,11 @@ export const MedicalHistoryDialog = async ({
             </DialogTrigger>
 
             <DialogContent className='max-h-[90%] max-w-106.25 md:max-w-2xl 2xl:max-w-4xl p-8 overflow-y-auto'>
-                {/*<DiagnosisContainer 
+                <DiagnosisContainer 
                     id={id}
                     patientId={patientId!}
-                    doctor_id={doctor_id!}
-                />*/}
+                    doctorId={doctorId!}
+                />
 
                 <p>Diagnosis Container</p>
             </DialogContent>

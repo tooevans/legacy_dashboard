@@ -80,12 +80,12 @@ export const Sidebar = async() => {
                 label: "Diagnosis",
                 href: "/"
             },*/
-            {
+            /*{
                 icon: <FaMedkit />,
                 label: "Prescription",
                 href: "/prescription",
                 visible: ["admin", "doctor", "patient"],
-            },
+            },*/
         ],
     },
     {
@@ -97,7 +97,7 @@ export const Sidebar = async() => {
                 href: "/patient/self",
                 visible: ["patient"],
             },
-            {
+            /*{
                 icon: <FaBell />,
                 label: "Notifications",
                 href: "/notifications",
@@ -118,9 +118,9 @@ export const Sidebar = async() => {
             {
                 icon: <FaSignOutAlt />,
                 label: "Logout",
-                href: "/logout",
+                href: "",
                 visible: ACCESS_LEVEL_ALL,
-            },
+            },*/
         ]
  
     }
@@ -166,9 +166,10 @@ export const Sidebar = async() => {
             </div>
           ))}
         </div>
+        <LogoutButton />
       </div>
 
-      <LogoutButton />
+      
     </div>
   )
 }

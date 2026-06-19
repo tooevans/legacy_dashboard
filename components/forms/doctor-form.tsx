@@ -52,14 +52,14 @@ export const DoctorForm = () => {
             specialization: "",
             address: "",
             type: "FULL",
-            department: '',
+            department: "",
             img: "",
             password: "",
             license_number: "",
         },
     })
 
-    const  handleSubmit:  SubmitHandler<z.infer<typeof DoctorSchema>> = async (values) => {
+    const handleSubmit:  SubmitHandler<z.infer<typeof DoctorSchema>> = async (values) => {
         try {
             if (workingSchedule.length === 0) {
                 toast.error("Please select work schedule")

@@ -14,12 +14,18 @@ export const DiagnosisContainer = async ({
 } : {
     patientId: string
     doctorId: string
-    id: string
+    id: number
 }) => {
 
     const { userId } = await auth()
 
     if (!userId) redirect("/sign-in")
+
+    // const appoitmentId = Number(id)
+
+    //if (Number.isNaN(appoitmentId)) {
+   //     throw new Error("Invalid appointment")
+    //}
 
     const data = await db.medicalRecords.findFirst({
         where: { appointment_id: Number(id) },

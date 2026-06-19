@@ -87,7 +87,8 @@ const RenderInput = ({ field, props} : { field: any; props: InputProps}) => {
                                  <Label
                                     htmlFor={i.value}
                                     className='flex flex-1 items-center justify-center rounded-md border-2 bg-popover 
-                                    w-full md:w-12.5 md:h-12.5 focus:outline-none focus:ring-2 focus:ring-blue-500 data-[state=checked]:bg-blue-600 data-[state=checked]:border-transparent'
+                                    w-full md:w-12.5 md:h-12.5 focus:outline-none focus:ring-2 focus:ring-blue-500
+                                     peer-data-[state=checked]:bg-blue-600 peer-data-[state=checked]:border-blue-400 peer-data-[state=checked]:text-white'
                                  >
                                     {i.label}
                                  </Label>
