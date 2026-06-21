@@ -61,7 +61,7 @@ export default async function Home() {
                         <p>
                             Doctor's can create their page by sending us an email 
                             <a 
-                                href="mailto:support@example.com" 
+                                href="afyalegacy2026@gmail.com" 
                                 className="px-2 py-2 text-blue rounded hover:bg-blue-700 transition"
                             >
                                 here
