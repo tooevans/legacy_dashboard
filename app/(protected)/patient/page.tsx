@@ -13,7 +13,7 @@ import { Briefcase, BriefcaseBusiness, BriefcaseMedical } from 'lucide-react';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import React from 'react'
-import { clone } from 'zod';
+
 
 const PatientDashboard = async() => {
 
@@ -85,16 +85,19 @@ const PatientDashboard = async() => {
               <Button size="sm" variant="outline" className='hover:underline'>
                 <Link href="/patient/self">View Profile</Link>
               </Button>
+              
             </div>
           </div>
 
-          {/* <div className='w-full flex flex-wrap gap-5'>
-            {
+          <div className='w-full flex flex-wrap gap-5'>
+            {/* {
               cardData?.map((i, id) => (
                 <StatCard key={id} {...i} link="#"/>
               )
-            )}
-          </div> */}
+            )} */}
+
+
+          </div>
           
         </div>
 
@@ -109,13 +112,13 @@ const PatientDashboard = async() => {
 
       {/* RIGHT */}
       <div className='w-full xl:w-[30%]'>
-        {/* {<div className='w-full h-112.5 mb-8'>
-          <StatSummary data={appointmentCounts} total={totalAppointments} /> 
-        </div>} 
+        <div className='w-full h-112.5 mb-8'>
+          {/* <StatSummary data={appointmentCounts} total={totalAppointments} /> */} 
+        </div>
 
-        <AvailableDoctors data={availableDoctor as AvailableDoctorProps} />
+        {/* <AvailableDoctors data={availableDoctor as AvailableDoctorProps} /> */} 
 
-        <PatientRatingContainer /> */}
+        {/* <PatientRatingContainer /> */}
       </div>
     </div>
   )

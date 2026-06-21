@@ -1,11 +1,25 @@
 import db from "@/lib/db";
 import { Prisma } from "@/lib/generated/prisma/client";
 import { success } from "zod";
+import { auth } from "@clerk/nextjs/server"
 import { tr } from "zod/v4/locales";
+import { getRole } from "../roles";
 
 
 export async function getAppointmentById(id: number) {
     try {
+
+        const { userId } = await auth()
+
+        const role = await getRole()
+
+        if (!userId) {
+            return {
+                success: false,
+                message: "Unauthorized",
+                status: 401,
+            }
+        }
 
         if (!id) {
             return {
@@ -14,8 +28,59 @@ export async function getAppointmentById(id: number) {
                 status: 404,
             };
         }
-        const data = await db.appointment.findUnique({
-            where: { id },
+
+        let where: Prisma.AppointmentWhereInput = {
+            id,
+        }
+
+        if (role === "patient") {
+            const patient = await db.patient.findUnique({
+                where: {
+                    user_id: userId,
+                },
+            })
+
+            if (!patient) {
+                return {
+                    success: false,
+                    message: "Forbidden",
+                    status: 403,
+                }
+            }
+
+            where = {
+                id,
+                patient_id: patient.id,
+            }
+        }
+
+        if (role === "doctor") {
+            const doctor = await db.doctor.findUnique({
+                where: {
+                    user_id: userId,
+                },
+            })
+
+            if (!doctor) {
+                return {
+                    success: false,
+                    status: 403,
+                    message: "Forbidden",
+                }
+            }
+
+            where = {
+                id,
+                doctor_id: doctor.id,
+            }
+        }
+
+        
+
+        
+
+        const data = await db.appointment.findFirst({
+            where,
             include: {
                 patient: {
                     select: { 
@@ -112,17 +177,89 @@ const buildQuery = (id?: string, search?: string) => {
         return combinedQuery;
 } 
 
-export async function getPatientAppointments({page, limit, search, id}: AllAppointmentsProps) {
+export async function getPatientAppointments({page, limit, search}: AllAppointmentsProps) {
     try {
+
+        const { userId } = await auth()
+
+        if (!userId) {
+            return {
+                success: false,
+                message: "Unauthorized",
+                status: 401,
+            }
+        }
+
+        const role = await getRole()
+
+        let where: Prisma.AppointmentWhereInput = {}
 
         const PAGE_NUMBER = Number(page) <= 0 ? 1 : Number(page)
         const LIMIT = Number(limit) || 10
 
         const SKIP = (PAGE_NUMBER - 1) * LIMIT
 
+        if (role === "patient") {
+            const patient = await db.patient.findFirst({
+                where: {
+                    user_id: userId,
+                },
+            })
+
+            if (!patient) {
+                return {
+                    success: false,
+                    message: "Forbidden",
+                    status: 403,
+                }
+            }
+
+            where.patient_id = patient?.id
+        }
+
+        if (role === "doctor") {
+            const doctor = await db.doctor.findUnique({
+                where: {
+                    user_id: userId,
+                },
+            })
+
+            where.doctor_id = doctor?.id
+        }
+
+        if (role === "admin") {
+            where = {}
+        }
+
+        
+        if (search) {
+            where = {
+                ...where,
+                OR: [
+                    {
+                        doctor: {
+                            name: {
+                                contains: search, mode: "insensitive",
+                            },
+                        },
+                    },
+                    {
+                        patient: {
+                            first_name: {
+                                contains: search,
+                                mode: "insensitive",
+                            },
+                        },
+                    },
+                ],
+            }
+        }
+                
+            
+
         const [data, totalRecord] = await Promise.all([
             db.appointment.findMany({
-                where: buildQuery(id, search),
+                where,
                 skip: SKIP,
                 take: LIMIT,
                 select: {
@@ -139,11 +276,11 @@ export async function getPatientAppointments({page, limit, search, id}: AllAppoi
                     },
                 },
                 orderBy: {
-                    appointment_date: "desc",
+                    created_at: "desc",
                 },
             }),
             db.appointment.count({
-                where: buildQuery(id, search)
+                where
             })
         ])
 
@@ -173,6 +310,23 @@ export async function getPatientAppointments({page, limit, search, id}: AllAppoi
 
 export async function getAppointmentWithMedicalRecordsById(id: number) {
     try {
+        const { userId } = await auth()
+
+        const role = await getRole()
+
+        let where: Prisma.AppointmentWhereInput = {
+            id,
+        }
+
+        if (!userId) {
+            return{
+                success: false,
+                status: 401,
+                message: "Unauthorized",
+            }
+        }
+
+    
         if (!id) {
             return {
                 status: 404,
@@ -181,8 +335,50 @@ export async function getAppointmentWithMedicalRecordsById(id: number) {
             };
         }
 
-        const data = await db.appointment.findUnique({
-            where: { id },
+        if (role === "patient") {
+            const patient = await db.patient.findUnique({
+                where: {
+                    user_id: userId,
+                },
+            })
+
+            if (!patient) {
+                return {
+                    success: false,
+                    message: "Forbidden",
+                    status: 403,
+                }
+            }
+
+            where = {
+                id,
+                patient_id: patient.id,
+            }
+        }
+
+        if (role === "doctor") {
+            const doctor = await db.doctor.findUnique({
+                where: {
+                    user_id: userId,
+                },
+            })
+
+            if (!doctor) {
+                return {
+                    success: false,
+                    message: "Forbidden",
+                    status: 403,
+                }
+            }
+
+            where = {
+                id,
+                doctor_id: doctor.id,
+            }
+        }
+
+        const data = await db.appointment.findFirst({
+            where,
             include: {
                 patient: true,
                 doctor: true,
@@ -208,5 +404,42 @@ export async function getAppointmentWithMedicalRecordsById(id: number) {
 
     } catch (error) {
         return { success: false, message: "Internal Server Error", status: 500 };
+    }
+}
+
+export async function getPatientMedicalRecords(patientId: string) {
+    try {
+        const records = await db.medicalRecords.findMany({
+            where: {
+                patient_id: patientId,
+            },
+            include: {
+                patient: true,
+                diagnosis: {
+                    include:{
+                        doctor: true,
+                    },
+                    orderBy: {
+                        created_at: "desc",
+                    },
+                },
+                lab_test: true,
+            },
+            orderBy: {
+                created_at: "desc",
+            },
+        })
+
+        return {
+            success: true,
+            data: records,
+        }
+    } catch (error) {
+        console.error(error)
+
+        return {
+            success: false,
+            data: [],
+        }
     }
 }

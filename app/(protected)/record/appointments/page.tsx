@@ -64,17 +64,13 @@ const Appointments =  async (props: {
   const searchQuery = searchParams?.q || "";
   const id = searchParams?.id || undefined
 
-  let queryId = undefined
+  let queryId: string | undefined = undefined
 
-  if (
-    userRole === "admin" || 
-    (userRole === "doctor" && id) ||
-    (userRole === "nurse" && id)
-  ) {
-    queryId = id
-  } else if (userRole === "doctor" || userRole === "patient") {
-    queryId = id
-  } else if (userRole === "nurse") {
+  if (userRole === "admin") {
+    queryId = searchParams?.id
+  } else if (userRole === "doctor") {
+    queryId = undefined
+  } else if (userRole === "patient") {
     queryId = undefined
   }
 

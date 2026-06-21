@@ -52,9 +52,19 @@ export const PatientFormSchema = z.object({
 export const AppointmentSchema = z.object({
     doctor_id: z.string().min(1, "Select Doctor"),
     type: z.string().min(1, "Select type of appointment"),
-    appointment_date: z.string().min(1, "Select appointment date"),
     time: z.string().min(1, "Select Time"),
     note: z.string().optional(),
+    appointment_date: z.string().refine((val) => {
+        const today = new Date()
+        const selected = new Date(val)
+
+        today.setHours(0, 0, 0, 0)
+        selected.setHours(0, 0, 0, 0)
+
+        return selected >= today
+    }, {
+        message: "You cannot book a past date",
+    }),
 })
 
 
@@ -162,8 +172,18 @@ export const VitalSignsSchema = z.object({
         (val) => val === "" ? undefined : Number(val),
         z.number().optional()
     ),
-    weight: z.coerce.number({ message: "Enter Weight (kg)"}),
-    height: z.coerce.number({ message: "Enter height (cm)"}),
+    weight: z.coerce.number(),
+    height: z.coerce.number(),
+})
+
+export const VitalsPatientSchema = z.object({
+    patient_id: z.string(),
+    medical_id: z.string(),
+    
+    sugars: z.coerce.number().optional(),
+    systolic: z.coerce.number().optional(),
+    diastolic: z.coerce.number().optional(),
+    pulse: z.coerce.number().optional(),
 })
 
 export const DiagnosisSchema = z.object({
@@ -175,4 +195,14 @@ export const DiagnosisSchema = z.object({
     notes: z.string().optional(),
     prescription: z.string().optional(),
     follow_up_plan: z.string().optional(),
+})
+
+export const DiagnosisPatientSchema = z.object({
+    patient_id: z.string(),
+    medical_id: z.string(),
+    doctor_id: z.string(),
+
+    symptoms: z.string().optional(),
+    notes: z.string().optional(),
+    prescription: z.string().optional(),
 })

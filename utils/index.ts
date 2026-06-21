@@ -140,9 +140,12 @@ export const calculateBMI = (weight: number, height: number) => {
     } else if (bmi >= 25 && bmi <= 29.9) {
         status = "Overweight"
         coloCode = "#ff9800"
-    } else {
+    } else if (bmi >= 30) {
         status = "Obese"
         coloCode = "#ff5722"
+    } else {
+        status = ""
+        coloCode = ""
     }
 
     return {

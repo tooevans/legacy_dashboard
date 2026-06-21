@@ -44,7 +44,8 @@ export async function createNewPatient(data: any, pid: string) {
         await db.patient.create({
             data: {
                 ...patientData,
-                id: patient_id,
+                id: patient_id, //crypto.randomUUID(),
+                user_id: patient_id,
             },
         });
 

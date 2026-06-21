@@ -17,6 +17,7 @@ import { getAllStaff } from '@/utils/services/staff'
 import { DATA_LIMIT } from '@/utils/settings'
 import { format } from 'date-fns'
 import { BriefcaseBusinessIcon, UserPenIcon, Users } from 'lucide-react'
+import Link from 'next/link'
 import React from 'react'
 
 const colums = [
@@ -61,6 +62,7 @@ const colums = [
 
 interface ExtendedProps extends MedicalRecords {
     patient: Patient
+    doctor: Doctor
     diagnosis: Diagnosis[]
     lab_test: LabTest[]
 }
@@ -124,7 +126,8 @@ const MedicalRecordsPage =  async (props: SearchParamsProps) => {
                 
                 <td>
                     
-                    <ViewAction href={`record/appointments/${item?.appointment_id}`} />
+                    <ViewAction href={`appointments/${item?.appointment_id}`} />
+
                       
                 </td>
             </tr>
@@ -145,6 +148,12 @@ const MedicalRecordsPage =  async (props: SearchParamsProps) => {
 
                 <div className='w-full lg:w-fit flex items-center justify-between lg:justify-start gap-2'>
                     <SearchInput />
+
+                    {/*<Button asChild>
+                        <Link href="record/all-records">
+                            All records
+                        </Link>
+                    </Button>*/}
                     
                 </div>
             </div>

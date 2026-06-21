@@ -49,22 +49,39 @@ export const AppointmentActionOptions = async ({
                         </Link>
                     </Button>
 
-                    {status !== "SCHEDULED" && (
-                        <AppointmentDialog
-                            type="approve"
-                            id={appointmentId}
-                            disabled={isAdmin || user.userId === doctorId}
-                        />
-                    )}
+                    {status !== "COMPLETED" && (
+                        <>
+                            {status !== "SCHEDULED" && status !== "COMPLETED" && (
+                                <AppointmentDialog
+                                    type="approve"
+                                    id={appointmentId}
+                                    status={status}
+                                    disabled={isAdmin || user.userId === doctorId}
+                                />
+                            )}
 
-                    <AppointmentDialog
-                        type="cancel"
-                        id={appointmentId}
-                        disabled={
-                            status === "PENDING" && 
-                            (isAdmin || user.userId === doctorId || user.userId === patientId)
-                        }
-                    />
+                            {/* <AppointmentDialog
+                                type="cancel"
+                                id={appointmentId}
+                                disabled={
+                                    status === "PENDING" && 
+                                    (isAdmin || user.userId === doctorId || user.userId === patientId)
+                                }
+                            /> */}
+
+                            <AppointmentDialog
+                                type="cancel"
+                                id={appointmentId}
+                                status={status}
+                                disabled={
+                                    status === "PENDING" || 
+                                    user.userId === doctorId || 
+                                    user.userId === patientId
+                                }
+                            />
+                        </>
+                    )}
+                    
                 </div>
             </PopoverContent>
         </Popover>

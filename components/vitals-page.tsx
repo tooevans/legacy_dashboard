@@ -3,33 +3,33 @@
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog"
-import { Button } from "../ui/button"
 import { Plus } from "lucide-react"
-import { Field, FieldGroup } from "../ui/field"
-import { CustomInput } from "../custom-input"
 import { toast } from "sonner"
-import { addVitalSigns } from "@/app/actions/appointment"
-import { VitalSignsSchema } from "@/lib/schema"
+import { addVitalPatientPage } from "@/app/actions/appointment"
+import { VitalsPatientSchema } from "@/lib/schema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import z from "zod"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { CustomInput } from "@/components/custom-input"
+import { Button } from "@/components/ui/button"
+import { Field } from "@/components/ui/field"
 
-interface AddVitalSignsProps {
+interface AddVitalPatientPageProps {
     patientId: string
     doctorId: string
-    appointmentId: string
     medicalId?: string
+    appointmentId: string
 }
 
-export type VitalSignsFormData = z.infer<typeof VitalSignsSchema>
+export type VitalSignsPatientPageData = z.infer<typeof VitalsPatientSchema>
 
-export const AddVitalSigns = ({patientId,doctorId,appointmentId,medicalId} : AddVitalSignsProps) => {
+export const VitalsPage = ({patientId,doctorId,medicalId,appointmentId} : AddVitalPatientPageProps) => {
 
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
 
-    const form = useForm<VitalSignsFormData>({
-        resolver: zodResolver(VitalSignsSchema) as any,
+    const form = useForm<VitalSignsPatientPageData>({
+        resolver: zodResolver(VitalsPatientSchema) as any,
         defaultValues: {
             patient_id: patientId,
             medical_id: medicalId,
@@ -37,19 +37,15 @@ export const AddVitalSigns = ({patientId,doctorId,appointmentId,medicalId} : Add
             diastolic: undefined,
             pulse: undefined,
             sugars: undefined,
-            body_temperature: undefined,
-            respiratory_rate: undefined,
-            oxygen_saturation: undefined,
-            weight: undefined,
-            height: undefined,
+
         },
     })
 
-    const handleSubmit = async (data: VitalSignsFormData) => {
+    const handleSubmit = async (data: VitalSignsPatientPageData) => {
         try {
             setIsLoading(true)
 
-            const res = await addVitalSigns(data, appointmentId, doctorId)
+            const res = await addVitalPatientPage(data, doctorId, appointmentId)
 
             if (res.success) {
                 router.refresh()
@@ -58,6 +54,8 @@ export const AddVitalSigns = ({patientId,doctorId,appointmentId,medicalId} : Add
             } else {
                 toast.error(res.msg)
             }
+
+            
             
         } catch (error) {
             toast.error("Failed to add vital signs")
@@ -108,13 +106,7 @@ export const AddVitalSigns = ({patientId,doctorId,appointmentId,medicalId} : Add
                                 </div>
 
                                 <div className="flex items-center gap-4">
-                                    <CustomInput
-                                        type="input"
-                                        control={form.control}
-                                        name="body_temperature"
-                                        label="Temperature"
-                                        placeholder="Temperature"
-                                    /> 
+                                     
                                     <CustomInput
                                         type="input"
                                         control={form.control}
@@ -132,40 +124,6 @@ export const AddVitalSigns = ({patientId,doctorId,appointmentId,medicalId} : Add
                                         label="Blood Sugars"
                                         placeholder="Blood sugar"
                                     /> 
-                                </div>
-
-                                <div className="flex items-center gap-4">
-                                    <CustomInput
-                                        type="input"
-                                        control={form.control}
-                                        name="height"
-                                        label="Height(cm)"
-                                        placeholder="Height"
-                                    /> 
-                                    <CustomInput
-                                        type="input"
-                                        control={form.control}
-                                        name="weight"
-                                        label="Weight (kg)"
-                                        placeholder="Weight"
-                                    />
-                                </div>
-
-                                <div className="flex items-center gap-4">
-                                    <CustomInput
-                                        type="input"
-                                        control={form.control}
-                                        name="respiratory_rate"
-                                        label="Resp rate"
-                                        placeholder=""
-                                    /> 
-                                    <CustomInput
-                                        type="input"
-                                        control={form.control}
-                                        name="oxygen_saturation"
-                                        label="SPO2"
-                                        placeholder=""
-                                    />
                                 </div>
 
                                 <Button type="submit" disabled={isLoading}>

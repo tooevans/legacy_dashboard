@@ -103,7 +103,7 @@ export const MedicalHistory = ({data, isShowProfile} : DataProps) => {
                     )}
                 </td>
 
-                <td className='hidden 2xl:table-cell'>
+                {/*<td className='hidden 2xl:table-cell'>
                     {item?.lab_test?.length === 0 ? (
                         <span className='text-sm italic text-gray-800'>Not Found</span>
                     ) : (
@@ -113,10 +113,11 @@ export const MedicalHistory = ({data, isShowProfile} : DataProps) => {
                             <span className='text-sm'>Found</span>
                         </div>
                     )}
-                </td>
+                </td>*/}
 
                 <td>
-                    <ViewAction href={`/record/appointments/${item?.appointment_id}`} />
+                    <ViewAction href={`/record/appointments/${item?.appointment_id}`} />  
+
                 </td>
             </tr>
         )

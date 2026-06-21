@@ -14,7 +14,7 @@ export const MedicalHistoryCard = ({
     index: number
 }) => {
     return (
-        <Card className="shadow-none">
+        <Card className="shadow-none mt-10">
             <div className="space-y-6 pt-4">
                 <div className="flex gap-x-6 justify-between">
                     <div>

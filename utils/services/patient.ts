@@ -110,7 +110,7 @@ export async function getPatientDashboardStatistics(id: string) {
                 },
             },
 
-            orderBy: { appointment_date: "desc" },
+            orderBy: { created_at: "desc" },
         });
 
         const { appointmentCounts, monthlyData } = await processAppointments(
@@ -211,7 +211,7 @@ export async function getPatientFullById(id: string) {
                         appointment_date:true,
                     },
                     orderBy: {
-                        appointment_date: "desc",
+                        created_at: "desc",
                     },
                     take: 1,
                 },
@@ -282,7 +282,7 @@ export async function getAllPatients({
                 },
                 skip: SKIP,
                 take: LIMIT,
-                orderBy: { first_name: "asc" },
+                orderBy: { first_name: "desc" },
             }),
             db.patient.count(),
         ])

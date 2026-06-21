@@ -60,6 +60,8 @@ enum PaymentStatus {
 
 model Patient {
   id                      String  @id
+  user_id                 String @unique
+  
   first_name              String
   last_name               String
   date_of_birth           DateTime
@@ -89,6 +91,7 @@ model Patient {
 
 model Doctor {
   id                      String  @id
+  user_id                 String @unique
   name                    String
   gender                  Gender @default(MALE)
   phone                   String
@@ -244,18 +247,18 @@ model VitalSigns {
   patient_id        String
   medical_id        Int
   medical           MedicalRecords  @relation(fields: [medical_id], references: [id], onDelete: Cascade)
-  body_temperature  Float
+  body_temperature  Float?
   systolic          Int?
   diastolic         Int?
   pulse             Int?
   respiratory_rate  Int?
-  oxygen_saturation   Int?
-  weight              Float
-  height              Float
-  sugars              Float
+  oxygen_saturation Int?
+  weight            Float?
+  height            Float?
+  sugars            Float?
 
-  created_at           DateTime @default(now())
-  updated_at           DateTime @updatedAt
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
 }
 
 model Diagnosis {
@@ -264,8 +267,8 @@ model Diagnosis {
   medical_id      Int
   doctor_id       String
   doctor          Doctor  @relation(fields: [doctor_id],references: [id])
-  symptoms        String
-  diagnosis       String
+  symptoms        String?
+  diagnosis       String?
   notes           String?
   prescription    String?
   follow_up_plan  String?

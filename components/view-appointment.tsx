@@ -97,7 +97,7 @@ export const ViewAppointment = async ({ id } : { id: string | undefined }) => {
                             <div>
                                 <span className='text-sm text-gray-500'>Date</span>
                                 <p className='text-sm text-gray-600'>
-                                    {format(data?.appointment_date, "dd, mm, yyyy")}
+                                    {format(data?.appointment_date, "dd MM, yyyy")}
                                 </p>
                             </div>
                             <div>

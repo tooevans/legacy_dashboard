@@ -53,10 +53,21 @@ export default async function Home() {
                                         Login to account
                                     </Button>
                                 </Link>
-
                                 
                             </>
                         )}
+                    </div>
+                    <div className="mt-10">
+                        <p>
+                            Doctor's can create their page by sending us an email 
+                            <a 
+                                href="mailto:support@example.com" 
+                                className="px-2 py-2 text-black rounded hover:bg-blue-700 transition"
+                            >
+                                here
+                            </a>
+                             with your details and we will create your account promptly.
+                        </p>
                     </div>
                 </div>
             </div>

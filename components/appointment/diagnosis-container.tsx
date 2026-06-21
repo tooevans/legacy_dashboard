@@ -4,8 +4,11 @@ import { redirect } from "next/navigation"
 import { NoDataFound } from "../no-data-found"
 import { AddDiagnosis } from "../dialogs/add-diagnosis"
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
-import { checkRole } from "@/utils/roles"
+import { checkRole, getRole } from "@/utils/roles"
 import { MedicalHistoryCard } from "./medical-history-card"
+import { AddPatientDiagnosis } from "../dialogs/add-patient-diagnosis"
+import { error } from "console"
+import { Prisma } from "@/lib/generated/prisma/client"
 
 export const DiagnosisContainer = async ({
     patientId,
@@ -21,14 +24,61 @@ export const DiagnosisContainer = async ({
 
     if (!userId) redirect("/sign-in")
 
+    const role = await getRole()
+
+    let where: Prisma.MedicalRecordsWhereInput
+
+    if (role === "PATIENT") {
+        const patient = await db.patient.findUnique({
+            where: { user_id: userId },
+        })
+
+        if (!patient) {
+            return (
+                <div className="text-red-500">
+                    No pt profile linked to the account
+                </div>
+            )
+        }
+
+        where = {patient_id: patient.id }
+    } else {
+        where= { patient_id: patientId }
+    }
+
+    {/* const patient = await db.patient.findUnique({
+        where: {
+            user_id: userId
+        },
+    })
+
+    if (!patient) {
+        return (
+            <div className="text-red-500">
+                No pt profile linked to the account
+            </div>
+        )
+    } */}
+
     // const appoitmentId = Number(id)
 
     //if (Number.isNaN(appoitmentId)) {
    //     throw new Error("Invalid appointment")
     //}
 
-    const data = await db.medicalRecords.findFirst({
-        where: { appointment_id: Number(id) },
+    {/* const data = await db.medicalRecords.findMany({
+        where: { patient_id: patientId },
+        include: {
+            diagnosis: {
+                include: { doctor: true },
+                orderBy: { created_at: "desc" },
+            },
+        },
+        orderBy: { created_at: "desc" },
+    }) */} 
+
+    const data = await db.medicalRecords.findMany({
+        where: { patient_id: patientId },
         include: {
             diagnosis: {
                 include: { doctor: true },
@@ -38,7 +88,9 @@ export const DiagnosisContainer = async ({
         orderBy: { created_at: "desc" },
     })
 
-    const diagnosis = data?.diagnosis || null
+    //const diagnosis = data?.diagnosis || null
+    const diagnosis = data.flatMap(r => r.diagnosis)
+    const medicalId = data.length > 0 ? data[0]?.id.toString() : undefined
 
     const isPatient = await checkRole("PATIENT")
 
@@ -47,13 +99,25 @@ export const DiagnosisContainer = async ({
             {diagnosis?.length === 0 || !diagnosis ? (
                 <div className="flex flex-col items-center justify-center mt-20">
                     <NoDataFound note="No diagnosis found" />
-                    <AddDiagnosis 
-                        key={new Date().getTime()}
-                        patientId={patientId}
-                        doctorId={doctorId}
-                        appointmentId={id}
-                        medicalId={data?.id.toString() || ""}
-                    /> 
+                    {!isPatient && (
+                        <AddDiagnosis
+                            key={new Date().getTime()}
+                            patientId={patientId}
+                            doctorId={doctorId}
+                            appointmentId={id}
+                            medicalId={medicalId!}
+                        />
+                    )}
+
+                    {isPatient && (
+                        <AddPatientDiagnosis
+                            key={new Date().getTime()}
+                            patientId={patientId}
+                            doctorId={doctorId}
+                            appointmentId={id}
+                            medicalId={medicalId!}
+                        />
+                    )}
                 </div>
             ) : (
                 <section className="space-y-6">
@@ -61,13 +125,23 @@ export const DiagnosisContainer = async ({
                         <CardHeader className="flex flex-row items-center justify-between">
                             <CardTitle>Medical Records</CardTitle>
 
-                            {isPatient && (
+                            {!isPatient && (
                                 <AddDiagnosis
                                     key={new Date().getTime()}
                                     patientId={patientId}
                                     doctorId={doctorId}
                                     appointmentId={id}
-                                    medicalId={data?.id.toString() || ""}
+                                    medicalId={medicalId!}
+                                />
+                            )}
+
+                            {isPatient && (
+                                <AddPatientDiagnosis
+                                    key={new Date().getTime()}
+                                    patientId={patientId}
+                                    doctorId={doctorId}
+                                    appointmentId={id}
+                                    medicalId={medicalId!}
                                 />
                             )}
                         </CardHeader>

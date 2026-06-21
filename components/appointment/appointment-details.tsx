@@ -1,6 +1,8 @@
 import { format } from "date-fns"
 import { SmallCard } from "../small-card"
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
+import { Button } from "../ui/button"
+import Link from "next/link"
 
 interface AppointmentDetailsProps {
     id: number | string
@@ -32,6 +34,10 @@ export const AppointmentDetails = ({
                 <div>
                     <span>Additonal Notes</span>
                     <p className="text-sm text-gray-700">{notes || "No notes"}</p>
+                </div>
+
+                <div>
+                    
                 </div>
             </CardContent>
         </Card>

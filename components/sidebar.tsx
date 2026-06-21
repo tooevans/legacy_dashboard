@@ -44,20 +44,26 @@ export const Sidebar = async() => {
                 icon: <FaUserDoctor />,
                 label: "Doctors",
                 href: "/record/doctors",
-                visible: ["admin", "doctor", "patient"],
+                visible: ["admin", "doctor"],
             },
             {
                 icon: <FaUserAlt />,
                 label: "Patients",
                 href: "/record/patients",
-                visible: ["admin", "doctor", "patient"],
+                visible: ["admin", "doctor"],
             },
-            {
+            /*{
+                icon: <FaUserAlt />,
+                label: "Vital Signs",
+                href: "/record/vitals",
+                visible: ["patient"],
+            }, */
+            /*{
                 icon: <FaUserAlt />,
                 label: "Staff",
                 href: "/record/staff",
                 visible: ["admin", "doctor", "staff"],
-            },
+            },*/
             {
                 icon: <FaFileAlt />,
                 label: "Records",

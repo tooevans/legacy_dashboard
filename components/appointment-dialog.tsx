@@ -16,12 +16,14 @@ interface ActionProps {
     type: "approve" | "cancel"
     id: string | number
     disabled: boolean
+    status: string
 }
 
 export const AppointmentDialog = ({
     type,
     id,
     disabled,
+    status
 } : ActionProps) => {
 
     const [isLoading, setIsLoading] = useState(false)
@@ -29,6 +31,12 @@ export const AppointmentDialog = ({
     const router = useRouter()
 
     const handleAction = async () => {
+
+        if (status === "COMPLETED") {
+            toast.error("Competed appointments cannot be modified")
+            return
+        }
+        
         if (type === "cancel" && !reason) {
             toast.error("PLease provide a reason for cancellation.")
             return

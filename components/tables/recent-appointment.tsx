@@ -65,7 +65,7 @@ export const RecentAppointments = ({ data } : DataProps) => {
                 </td>
 
                 <td className='hidden md:table-cell'>
-                    {format(item?.appointment_date, "yyyy-mm-dd")}
+                    {format(item?.appointment_date, "dd-MM-yyyy")}
                 </td>
                 <td className='hidden md:table-cell'>{item?.time}</td>
                 <td className='hidden md:table-cell items-center py-2'>

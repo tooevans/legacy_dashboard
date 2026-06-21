@@ -16,12 +16,12 @@ const AppointmentQuickLinks = async ({ staffId } : { staffId: string }) => {
             </CardHeader>
 
             <CardContent className='flex flex-wrap gap-2'>
-                <Link
+                {/* <Link
                     href={"?cat=charts"}
                     className='px-4 py-2 rounded-lg bg-gray-100 text-gray-600'
                 >
                     Charts
-                </Link>
+                </Link> */}
                 <Link
                     href={"?cat=appointments"}
                     className='px-4 py-2 rounded-lg bg-teal-100 text-gray-600'
@@ -50,12 +50,12 @@ const AppointmentQuickLinks = async ({ staffId } : { staffId: string }) => {
                     Vital Signs
                 </Link>
 
-                <Link
+                {/* <Link
                     href="?cat=lab-tests"
                     className='px-4 py-2 rounded-lg bg-purple-100 text-gray-600'
                 >
                     Lab Tests
-                </Link>
+                </Link> */}
 
                 {!isPatient && <ReviewForm staffId={staffId} />}
 

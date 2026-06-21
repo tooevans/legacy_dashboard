@@ -41,6 +41,7 @@ export async function createNewDoctor(data: any) {
             data: {
                 ...doctorData,
                 id: user.id,
+                user_id: user.id,
             },
         })
 
