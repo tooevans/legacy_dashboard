@@ -38,7 +38,7 @@ export const Sidebar = async() => {
                 icon: <FaUser />,
                 label: "Users",
                 href: "/record/users",
-                visible: ["admin", "doctor", "patient", "users"],
+                visible: ["admin"],
             },
             {
                 icon: <FaUserDoctor />,
